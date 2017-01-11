@@ -1730,13 +1730,13 @@ thread_return_type WINAPI MQTTAsync_receiveThread(void* n)
 					
 					if (rc == MQTTASYNC_SUCCESS)
 					{
+						int onSuccess = (m->connect.onSuccess != NULL); /* save setting of onSuccess callback */
 						if ((m->serverURIcount > 0)
 						    && (m->connect.details.conn.currentURI < m->serverURIcount))
 						{
 							Log(TRACE_MIN, -1, "Connect succeeded to %s", 
 								m->serverURIs[m->connect.details.conn.currentURI]);
 						}
-						int onSuccess = (m->connect.onSuccess != NULL); /* save setting of onSuccess callback */
 						if (m->connect.onSuccess)
 						{
 							MQTTAsync_successData data;
@@ -1754,8 +1754,9 @@ thread_return_type WINAPI MQTTAsync_receiveThread(void* n)
 						}
 						if (m->connected)
 						{
+                            char* reason;
 							Log(TRACE_MIN, -1, "Calling connected for client %s", m->c->clientID);
-							char* reason = (onSuccess) ? "connect onSuccess called" : "automatic reconnect";
+							reason = (onSuccess) ? "connect onSuccess called" : "automatic reconnect";
 							(*(m->connected))(m->connected_context, reason);
 						}
 					}
