@@ -19,12 +19,25 @@
 #if !defined(MQTTPACKET_H)
 #define MQTTPACKET_H
 
+#ifdef HAVE_CONFIG_H
+/* Get macro definition which were set by configure script */
+#include "config.h"
+#endif
+
 #include "Socket.h"
 #if defined(OPENSSL)
 #include "SSLSocket.h"
 #endif
 #include "LinkedList.h"
 #include "Clients.h"
+
+#ifdef HAVE_ENDIAN_H
+/* does not exist on all plattforms. Therefore protect include by HAVE_ENDIAN_H as set in config.h or not */
+#include <endian.h>
+#if __BYTE_ORDER == __BIG_ENDIAN
+#define BIG_ENDIAN_HOST
+#endif
+#endif
 
 /*BE
 include "Socket"
@@ -51,7 +64,7 @@ enum msgTypes
 typedef union
 {
 	/*unsigned*/ char byte;	/**< the whole byte */
-#if defined(REVERSED)
+#if defined(BIG_ENDIAN_HOST)
 	struct
 	{
 		unsigned int type : 4;	/**< message type nibble */
@@ -80,7 +93,7 @@ typedef struct
 	union
 	{
 		unsigned char all;	/**< all connect flags */
-#if defined(REVERSED)
+#if defined(BIG_ENDIAN_HOST)
 		struct
 		{
 			bool username : 1;			/**< 3.1 user name */
@@ -124,7 +137,7 @@ typedef struct
 	union
 	{
 		unsigned char all;	/**< all connack flags */
-#if defined(REVERSED)
+#if defined(BIG_ENDIAN_HOST)
 		struct
 		{
 			unsigned int reserved : 7;	/**< message type nibble */

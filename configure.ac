@@ -60,14 +60,15 @@ AC_CHECK_HEADERS([sys/param.h])
 AC_CHECK_HEADERS([sys/socket.h])
 AC_CHECK_HEADERS([sys/time.h])
 AC_CHECK_HEADERS([sys/timeb.h])
-AC_CHECK_HEADERS([syslog.h])
+AC_CHECK_HEADERS([syslog.h endian.h])
 AC_HEADER_STDBOOL
 
 AC_TYPE_SIZE_T
 
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
+# The following 2 do not work properly for cross compilation:
+#AC_FUNC_MALLOC
+#AC_FUNC_REALLOC
 AC_CHECK_FUNCS([clock_gettime])
 AC_CHECK_FUNCS([ftime])
 AC_CHECK_FUNCS([gettimeofday])
