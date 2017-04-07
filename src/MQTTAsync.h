@@ -763,7 +763,7 @@ typedef struct
       * a server running on the local machines with the default MQTT port, specify
       * <i>tcp://localhost:1883</i>.
       */    
-	char* const* serverURIs;
+	const char** serverURIs;
 	/**
       * Sets the version of MQTT to be used on the connect.
       * MQTTVERSION_DEFAULT (0) = default: start with 3.1.1, and if that fails, fall back to 3.1
