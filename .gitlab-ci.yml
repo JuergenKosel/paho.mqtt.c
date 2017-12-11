@@ -1,0 +1,6 @@
+before_script:
+  - apt-get update -qq && apt-get install -y -qq cmake cmake-data mosquitto doxygen
+
+linuxBuild:
+  script:
+  - export TRAVIS_OS_NAME=linux ; export TRAVIS_BUILD_DIR=$(pwd) ; export PATH=$PATH:/usr/sbin ; ./travis-install.sh && rm -Rf ./build.paho/ ; ./travis-build.sh
